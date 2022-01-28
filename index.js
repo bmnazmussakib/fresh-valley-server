@@ -114,42 +114,35 @@ client.connect(err => {
     })
 
     app.delete('/orderPlacing', (req, res) => {
-
         productCartCollection.deleteMany()
             .then(
                 () => {
                     res.status(200).json({
                         message: 'Deleted!'
                     })
-                    .catch(
-                        (error) => {
-                          res.status(400).json({
-                            error: error
-                          });
-                        }
-                      );
+                        .catch(
+                            (error) => {
+                                res.status(400).json({
+                                    error: error
+                                });
+                            }
+                        );
                 })
-
-
-        app.get('/orders', (req, res) => {
-            productOrderCollection.find().toArray((err, documents) => {
-                res.send(documents);
-            });
-        })
-
-
-
-
     });
 
-
-
-
-
-    app.get('/', (req, res) => {
-        res.send("<h1>Hello Node JS</h1>");
+    app.get('/orders', (req, res) => {
+        productOrderCollection.find().toArray((err, documents) => {
+            res.send(documents);
+        });
     })
+})
 
-    app.listen(PORT, () => {
-        console.log(`Server is running at http://localhost:${PORT}`);
-    })
+
+
+app.get('/', (req, res) => {
+    res.send("<h1>Hello Node JS</h1>");
+})
+
+app.listen(PORT, () => {
+    console.log(`Server is running at http://localhost:${process.env.PORT || PORT}`);
+})
