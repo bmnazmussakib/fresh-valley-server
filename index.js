@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const PORT = 4000;
+// const PORT = process.env.PORT;
 
 // Local Storage
 const { LocalStorage } = require('node-localstorage')
@@ -145,5 +146,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${process.env.PORT || PORT}`);
+    console.log(`Server is running at http://localhost:${process.env.PORT || 4000}`);
 })
