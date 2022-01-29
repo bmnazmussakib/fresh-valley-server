@@ -47,10 +47,11 @@ client.connect(err => {
 
     app.post('/addProduct', (req, res) => {
 
-        const product = req.body;
-        console.log(product);
+        const productInfo = req.body;
+
+        console.log(productInfo);
         console.log("Product added successfully");
-        productCollection.insertOne(product)
+        productCollection.insertOne(productInfo)
             .then(result => {
                 console.log(result);
             })
