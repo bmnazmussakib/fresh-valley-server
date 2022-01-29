@@ -146,5 +146,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${process.env.PORT || 4000}`);
+    console.log(`Server is running at http://localhost:${process.env.PORT || PORT}`);
 })
