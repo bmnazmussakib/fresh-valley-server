@@ -2,7 +2,8 @@ const app = require('./app');
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const PORT = 4000;
+// const PORT = 4000;
+const PORT = process.env.PORT;
 
 // Local Storage
 const { LocalStorage } = require('node-localstorage')
