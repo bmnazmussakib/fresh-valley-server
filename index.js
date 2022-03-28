@@ -1,6 +1,7 @@
 const app = require('./app');
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const ObjectId = require('mongodb').ObjectID;
 
 const PORT = 4000;
 // const PORT = process.env.PORT;
@@ -38,6 +39,7 @@ client.connect(err => {
     console.log("Database Connected Successfully......");
 
 
+    // Read API
     app.get('/manageProduct', (req, res) => {
         var allProduct = productCollection.find().toArray((err, document) => {
             res.send(document);
@@ -46,6 +48,22 @@ client.connect(err => {
 
     })
 
+
+    // Find Product by ID PAI
+    // app.get('/manageProduct/:id', (req, res) => {
+
+    //     const p_id = { _id:ObjectId(req.params.id) };
+
+    //     productCollection.find(p_id).toArray(function (err, result) {
+    //         if (err) throw err;
+    //         res.send(result);
+    //         console.log(result);
+    //     });
+
+    // });
+
+
+    // Post API
     app.post('/addProduct', (req, res) => {
 
         const productInfo = req.body;
@@ -58,15 +76,54 @@ client.connect(err => {
             })
     })
 
+
+    // Delete API
     app.delete('/delete/:id', (req, res) => {
-        productCollection.deleteOne({
-            _id: req.params.id
-        })
-            .then(result => {
+        const p_id = { _id:ObjectId(req.params.id) };
+
+        productCollection.deleteOne(p_id, (err, result) => {
+            if (err) {
+                console.log(err);
+            } else {
                 console.log(result);
-            })
-        // console.log(req.params.id)
+            }
+        })
     })
+
+    // Get product by ID================================================
+    app.get('/editProduct/:id', (req, res) => {
+
+        const p_id = { _id:ObjectId(req.params.id) };
+        
+
+        productCollection.find(p_id).toArray(function (err, result) {
+            if (err) throw err;
+            res.send(result);
+        });
+
+    });
+
+    // Update API================================================
+    app.put('/editProduct/:id', (req, res) => {
+
+
+        const {name, weight, price, imgURL} = req.body;
+
+        const myQuery = { _id:ObjectId(req.params.id) };
+        const myNewValues = {$set: {name: name, weight: weight, price: price, imgURL: imgURL}}
+
+        console.log(myQuery);
+        console.log(myNewValues);
+
+        productCollection.updateOne(myQuery, myNewValues, (err, result)=>{
+            if (err) {
+                console.log(err);
+            }else {
+                console.log(result);
+            }
+        })
+    });
+
 
 
     // Add to Cart
